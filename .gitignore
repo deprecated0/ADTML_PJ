@@ -1,3 +1,5 @@
 .venv
 .idea
 **/__pycache__
+mlruns
+mlflow.db
