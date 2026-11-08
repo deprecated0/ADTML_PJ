@@ -1,0 +1,24 @@
+stages:
+  prepare_data:
+    cmd: python -m src.data_prep
+    deps:
+      - src/data_prep.py
+      - data/raw/UCI_Credit_Card.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  train_model:
+    cmd: python -m src.run_training
+    deps:
+      - src/run_training.py
+      - src/model_builder.py
+      - src/fe.py
+      - src/schema.py
+      - data/processed/train.csv
+      - data/processed/test.csv
+    outs:
+      - models/final_model.pkl
+    metrics:
+      - metrics.json:
+          cache: false
