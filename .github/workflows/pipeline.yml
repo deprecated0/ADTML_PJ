@@ -1,0 +1,42 @@
+name: ci-pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10-slim"
+
+      - name: deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: flake8
+        run: flake8 src/ tests/ --config=setup.cfg
+
+      - name: black check
+        run: black --check --line-length 99 src/ tests/
+
+      - name: pytest
+        run: pytest tests/ --cov=src --cov-report=xml
+
+      - name: GE validation
+        run: |
+          python -c "
+          import pandas as pd, sys
+          sys.path.insert(0, '.')
+          from src.schema import run_validation
+          df = pd.read_csv('data/processed/train.csv')
+          run_validation(df)
+          print('Great Expectations: OK')
+          "
