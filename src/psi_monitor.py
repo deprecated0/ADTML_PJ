@@ -5,6 +5,7 @@ import requests
 API = "http://127.0.0.1:8000/predict"
 N_BINS = 10
 
+
 def psi(expected, actual, bins=N_BINS):
     _, edges = np.histogram(expected, bins=bins)
     e_counts, _ = np.histogram(expected, bins=edges)

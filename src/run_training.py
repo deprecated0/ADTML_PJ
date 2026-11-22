@@ -69,15 +69,39 @@ def main():
     mlflow.set_experiment("credit_default")
 
     experiments = [
-        ("gbc_baseline", "gbc", {"model__n_estimators": 100, "model__max_depth": 3, "model__learning_rate": 0.1}),
-        ("gbc_deeper", "gbc", {"model__n_estimators": 200, "model__max_depth": 5, "model__learning_rate": 0.05}),
-        ("gbc_more_trees", "gbc", {"model__n_estimators": 400, "model__max_depth": 4, "model__learning_rate": 0.05}),
-        ("logreg_l2", "logreg", {"model__C": 1.0, "model__penalty": "l2"}),
-        ("logreg_l1", "logreg", {"model__C": 0.5, "model__penalty": "l1", "model__solver": "saga"}),
+        ("gbc_baseline", "gbc",
+         {
+             "model__n_estimators": 100,
+             "model__max_depth": 3,
+             "model__learning_rate": 0.1
+         }),
+        ("gbc_deeper", "gbc",
+         {
+             "model__n_estimators": 200,
+             "model__max_depth": 5,
+             "model__learning_rate": 0.05
+         }),
+        ("gbc_more_trees", "gbc",
+         {
+             "model__n_estimators": 400,
+             "model__max_depth": 4,
+             "model__learning_rate": 0.05
+         }),
+        ("logreg_l2", "logreg",
+         {
+             "model__C": 1.0,
+             "model__penalty": "l2"
+         }),
+        ("logreg_l1", "logreg",
+         {
+             "model__C": 0.5,
+             "model__penalty": "l1",
+             "model__solver": "saga"
+         }),
     ]
 
     results = []
-    best_auc, best_pipe = 0, None
+    best_auc = 0
 
     for name, mtype, params in experiments:
         with mlflow.start_run(run_name=name):

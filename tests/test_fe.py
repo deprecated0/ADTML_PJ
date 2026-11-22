@@ -1,8 +1,16 @@
 from src.fe import engineer_features
 
+
 def test_new_columns_appear(mini_df):
     result = engineer_features(mini_df)
-    expected_cols = {"avg_delay", "max_delay", "num_late_months", "sum_bill", "sum_pay", "utilization", "age_group"}
+    expected_cols = {
+        "avg_delay",
+        "max_delay",
+        "num_late_months",
+        "sum_bill", "sum_pay",
+        "utilization",
+        "age_group"
+    }
     assert expected_cols.issubset(set(result.columns))
 
 
