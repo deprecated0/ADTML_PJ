@@ -56,7 +56,7 @@ def main():
     if max(p, p2, p3) > threshold:
         print(f"Обнаружен дрейф (порог {threshold})")
     else:
-        print(f"Дрейф в пределах нормы.")
+        print("Дрейф в пределах нормы.")
 
 
 if __name__ == "__main__":
