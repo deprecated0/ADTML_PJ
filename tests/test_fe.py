@@ -7,9 +7,10 @@ def test_new_columns_appear(mini_df):
         "avg_delay",
         "max_delay",
         "num_late_months",
-        "sum_bill", "sum_pay",
+        "sum_bill",
+        "sum_pay",
         "utilization",
-        "age_group"
+        "age_group",
     }
     assert expected_cols.issubset(set(result.columns))
 

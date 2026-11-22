@@ -21,10 +21,23 @@ def main():
     test_df = pd.read_csv("data/processed/test.csv").sample(150, random_state=7)
     train_df = pd.read_csv("data/processed/train.csv")
 
-    cols_needed = [
-        "LIMIT_BAL", "SEX", "EDUCATION", "MARRIAGE", "AGE",
-        "PAY_0", "PAY_2", "PAY_3", "PAY_4", "PAY_5", "PAY_6",
-    ] + [f"BILL_AMT{i}" for i in range(1, 7)] + [f"PAY_AMT{i}" for i in range(1, 7)]
+    cols_needed = (
+        [
+            "LIMIT_BAL",
+            "SEX",
+            "EDUCATION",
+            "MARRIAGE",
+            "AGE",
+            "PAY_0",
+            "PAY_2",
+            "PAY_3",
+            "PAY_4",
+            "PAY_5",
+            "PAY_6",
+        ]
+        + [f"BILL_AMT{i}" for i in range(1, 7)]
+        + [f"PAY_AMT{i}" for i in range(1, 7)]
+    )
 
     probs = []
     errors = 0

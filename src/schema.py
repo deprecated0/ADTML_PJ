@@ -9,65 +9,45 @@ def build_suite() -> ExpectationSuite:
     suite = gx.ExpectationSuite(name=SUITE_NAME)
 
     # Обязательные колонки
-    required_columns = [
-        "LIMIT_BAL", "AGE", "SEX", "EDUCATION", "MARRIAGE", TARGET
-    ]
+    required_columns = ["LIMIT_BAL", "AGE", "SEX", "EDUCATION", "MARRIAGE", TARGET]
     for col in required_columns:
-        suite.add_expectation(
-            gx.expectations.ExpectColumnToExist(column=col)
-        )
+        suite.add_expectation(gx.expectations.ExpectColumnToExist(column=col))
 
     # Отсутствие null в ключевых полях
     not_null_columns = ["LIMIT_BAL", "AGE", TARGET]
     for col in not_null_columns:
-        suite.add_expectation(
-            gx.expectations.ExpectColumnValuesToNotBeNull(column=col)
-        )
+        suite.add_expectation(gx.expectations.ExpectColumnValuesToNotBeNull(column=col))
 
     # Возраст больше 18, т.к. до 18 кредиты не могут выдавать
     suite.add_expectation(
         gx.expectations.ExpectColumnValuesToBeBetween(
-            column="AGE",
-            min_value=18,
-            max_value=95
+            column="AGE", min_value=18, max_value=95
         )
     )
 
     suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeInSet(
-            column=TARGET,
-            value_set=[0, 1]
+        gx.expectations.ExpectColumnValuesToBeInSet(column=TARGET, value_set=[0, 1])
+    )
+
+    suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToBeBetween(
+            column="LIMIT_BAL", min_value=0, max_value=2_000_000
+        )
+    )
+
+    suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToBeInSet(column="SEX", value_set=[1, 2])
+    )
+
+    suite.add_expectation(
+        gx.expectations.ExpectColumnValuesToBeBetween(
+            column="EDUCATION", min_value=0, max_value=6
         )
     )
 
     suite.add_expectation(
         gx.expectations.ExpectColumnValuesToBeBetween(
-            column="LIMIT_BAL",
-            min_value=0,
-            max_value=2_000_000
-        )
-    )
-
-    suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeInSet(
-            column="SEX",
-            value_set=[1, 2]
-        )
-    )
-
-    suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeBetween(
-            column="EDUCATION",
-            min_value=0,
-            max_value=6
-        )
-    )
-
-    suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeBetween(
-            column="MARRIAGE",
-            min_value=0,
-            max_value=3
+            column="MARRIAGE", min_value=0, max_value=3
         )
     )
 
@@ -93,7 +73,7 @@ def run_validation(df):
         for result in validation_result.results:
             if not result.success:
                 exp_type = result.expectation_config.type
-                column = result.expectation_config.kwargs.get('column', 'unknown')
+                column = result.expectation_config.kwargs.get("column", "unknown")
                 failed_expectations.append(f"{exp_type} on column '{column}'")
 
         raise ValueError(
@@ -102,6 +82,8 @@ def run_validation(df):
             f"Success rate: {validation_result.statistics['success_percent']:.1f}%"
         )
 
-    print(f"Great Expectations validation passed "
-          f"(success rate: {validation_result.statistics['success_percent']:.1f}%)")
+    print(
+        f"Great Expectations validation passed "
+        f"(success rate: {validation_result.statistics['success_percent']:.1f}%)"
+    )
     return validation_result

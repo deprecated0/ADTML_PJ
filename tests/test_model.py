@@ -12,6 +12,7 @@ def test_pipeline_builds():
 
 def test_pipeline_predicts(mini_df):
     from src.fe import engineer_features
+
     df = engineer_features(mini_df)
     feats = NUMERIC_FEATS + CATEGORICAL_FEATS
     X, y = df[feats], df["default.payment.next.month"]

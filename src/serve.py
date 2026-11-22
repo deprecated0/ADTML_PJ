@@ -57,6 +57,7 @@ def predict(payload: InputData):
 
         # добавляем фичи
         from src.fe import engineer_features
+
         row = engineer_features(row)
 
         proba = float(model.predict_proba(row)[:, 1][0])

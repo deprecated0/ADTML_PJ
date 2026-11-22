@@ -30,9 +30,16 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 NUMERIC_FEATS = [
-    "LIMIT_BAL", "AGE", "avg_delay", "max_delay",
-    "num_late_months", "sum_bill", "sum_pay", "utilization",
-    "BILL_AMT1", "PAY_AMT1",
+    "LIMIT_BAL",
+    "AGE",
+    "avg_delay",
+    "max_delay",
+    "num_late_months",
+    "sum_bill",
+    "sum_pay",
+    "utilization",
+    "BILL_AMT1",
+    "PAY_AMT1",
 ]
 
 CATEGORICAL_FEATS = ["SEX", "EDUCATION", "MARRIAGE", "age_group"]

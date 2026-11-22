@@ -9,7 +9,10 @@ import matplotlib.pyplot as plt
 
 import pandas as pd
 from sklearn.metrics import (
-    f1_score, precision_score, recall_score, roc_auc_score,
+    f1_score,
+    precision_score,
+    recall_score,
+    roc_auc_score,
     RocCurveDisplay,
 )
 from sklearn.model_selection import GridSearchCV
@@ -69,35 +72,39 @@ def main():
     mlflow.set_experiment("credit_default")
 
     experiments = [
-        ("gbc_baseline", "gbc",
-         {
-             "model__n_estimators": 100,
-             "model__max_depth": 3,
-             "model__learning_rate": 0.1
-         }),
-        ("gbc_deeper", "gbc",
-         {
-             "model__n_estimators": 200,
-             "model__max_depth": 5,
-             "model__learning_rate": 0.05
-         }),
-        ("gbc_more_trees", "gbc",
-         {
-             "model__n_estimators": 400,
-             "model__max_depth": 4,
-             "model__learning_rate": 0.05
-         }),
-        ("logreg_l2", "logreg",
-         {
-             "model__C": 1.0,
-             "model__penalty": "l2"
-         }),
-        ("logreg_l1", "logreg",
-         {
-             "model__C": 0.5,
-             "model__penalty": "l1",
-             "model__solver": "saga"
-         }),
+        (
+            "gbc_baseline",
+            "gbc",
+            {
+                "model__n_estimators": 100,
+                "model__max_depth": 3,
+                "model__learning_rate": 0.1,
+            },
+        ),
+        (
+            "gbc_deeper",
+            "gbc",
+            {
+                "model__n_estimators": 200,
+                "model__max_depth": 5,
+                "model__learning_rate": 0.05,
+            },
+        ),
+        (
+            "gbc_more_trees",
+            "gbc",
+            {
+                "model__n_estimators": 400,
+                "model__max_depth": 4,
+                "model__learning_rate": 0.05,
+            },
+        ),
+        ("logreg_l2", "logreg", {"model__C": 1.0, "model__penalty": "l2"}),
+        (
+            "logreg_l1",
+            "logreg",
+            {"model__C": 0.5, "model__penalty": "l1", "model__solver": "saga"},
+        ),
     ]
 
     results = []
@@ -116,7 +123,7 @@ def main():
             mlflow.sklearn.log_model(
                 pipe,
                 f"model_{name}",
-                skops_trusted_types=['numpy.dtype', 'sklearn.tree._tree.Tree']
+                skops_trusted_types=["numpy.dtype", "sklearn.tree._tree.Tree"],
             )
 
             results.append((name, mets))
@@ -148,7 +155,7 @@ def main():
             final_pipe,
             "final_model",
             registered_model_name="CreditDefault_v2",
-            skops_trusted_types=['numpy.dtype', 'sklearn.tree._tree.Tree']
+            skops_trusted_types=["numpy.dtype", "sklearn.tree._tree.Tree"],
         )
 
         print(f"GridSearch best params: {gs.best_params_}")
