@@ -20,9 +20,7 @@ def build_suite() -> ExpectationSuite:
 
     # Возраст больше 18, т.к. до 18 кредиты не могут выдавать
     suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeBetween(
-            column="AGE", min_value=18, max_value=95
-        )
+        gx.expectations.ExpectColumnValuesToBeBetween(column="AGE", min_value=18, max_value=95)
     )
 
     suite.add_expectation(
@@ -40,15 +38,11 @@ def build_suite() -> ExpectationSuite:
     )
 
     suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeBetween(
-            column="EDUCATION", min_value=0, max_value=6
-        )
+        gx.expectations.ExpectColumnValuesToBeBetween(column="EDUCATION", min_value=0, max_value=6)
     )
 
     suite.add_expectation(
-        gx.expectations.ExpectColumnValuesToBeBetween(
-            column="MARRIAGE", min_value=0, max_value=3
-        )
+        gx.expectations.ExpectColumnValuesToBeBetween(column="MARRIAGE", min_value=0, max_value=3)
     )
 
     return suite
@@ -61,9 +55,7 @@ def run_validation(df):
     datasource = context.data_sources.add_pandas(name="credit_datasource")
     data_asset = datasource.add_dataframe_asset(name="credit_df")
 
-    batch_definition = data_asset.add_batch_definition_whole_dataframe(
-        name="credit_batch"
-    )
+    batch_definition = data_asset.add_batch_definition_whole_dataframe(name="credit_batch")
     batch = batch_definition.get_batch(batch_parameters={"dataframe": df})
 
     validation_result = batch.validate(suite)

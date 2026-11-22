@@ -23,9 +23,7 @@ def tidy_up(df):
 
 def split_and_save(df, test_frac=0.2, seed=42):
     os.makedirs(DATA_OUT, exist_ok=True)
-    tr, te = train_test_split(
-        df, test_size=test_frac, random_state=seed, stratify=df[TARGET_COL]
-    )
+    tr, te = train_test_split(df, test_size=test_frac, random_state=seed, stratify=df[TARGET_COL])
     tr.to_csv(os.path.join(DATA_OUT, "train.csv"), index=False)
     te.to_csv(os.path.join(DATA_OUT, "test.csv"), index=False)
     print(f"saved: train={len(tr)}, test={len(te)}")
